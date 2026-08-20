@@ -21,7 +21,10 @@ def order_history():
 @app.route("/checkout")
 def checkout():
     return render_template("checkout.html")
- 
+
+@app.route("/login")
+def login():
+    return render_template("login.html")
  
 if __name__ == "__main__":
     app.run(debug=True)

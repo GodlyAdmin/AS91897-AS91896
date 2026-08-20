@@ -8,13 +8,20 @@
 <body>
 
 <header>
-    <h1>Glorified Pizzas</h1>
+    <h1>Glorified Pizzas</h1>    
     <nav>
         <a href="{{ url_for('home') }}">Home</a>
         <a href="{{ url_for('menu') }}">Menu</a>
-        <a href="{{ url_for('order_history') }}">Orders</a>
-        <a href="{{ url_for('checkout') }}">Checkout</a>
+        <a href="{{ url_for('order_history') }}">Order History</a>       
     </nav>
+    <div class="header-actions">
+        <div class="cart">
+            <a href="{{ url_for('checkout') }}">Cart</a>
+        </div>
+        <div class="login">
+            <a href="{{ url_for('login') }}">Login</a>
+        </div>    
+    </div>
 </header>
 
 <main>
