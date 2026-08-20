@@ -11,8 +11,28 @@ header {
     justify-content: space-between;
     padding: 16px 32px;
     border-bottom: 1px solid #ddd;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: #FBF6EC;
+    transition: background-color 0.25s ease, backdrop-filter 0.25s ease,
+        border-color 0.25s ease;
 }
-
+ 
+header.scrolled {
+    background: rgba(251, 246, 236, 0.55);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-bottom-color: rgba(221, 221, 221, 0.4);
+}
+ 
+header.scrolled h1,
+header.scrolled nav a,
+header.scrolled .login a,
+header.scrolled .cart a {
+    opacity: 0.7;
+}
+ 
 nav {
     display: flex;
     gap: 20px;
@@ -26,6 +46,7 @@ header h1 {
     color: #C1123B;
     font-weight: bold;
     text-shadow: 1px 1px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000;
+    transition: opacity 0.25s ease;
 }
  
 nav a {
@@ -33,19 +54,20 @@ nav a {
     text-decoration: none;
     color: #241A12;
     font-weight: bold;
+    transition: opacity 0.25s ease;
 }
  
 nav a:hover {
     color: #C1440E;
 }
-
+ 
 .header-actions {
     display: flex;
     align-items: center;
     gap: 12px;
     flex-shrink: 0;      /* stops Cart/Login from wrapping or shrinking */
 }
-
+ 
 .login a {
     border: 1px solid #C1440E;
     color: #C1440E;
@@ -54,28 +76,32 @@ nav a:hover {
     text-decoration: none;
     font-weight: bold;
     font-size: 14px;
+    transition: opacity 0.25s ease;
 }
-
+ 
 .login a:hover {
     background: #C1440E;
     color: #fff;
 }
-
+ 
 .cart a {
     display: flex;
     align-items: center;
     gap: 6px;
-    background: #1a1a1a;
-    color: #fff;
+    background: transparent;
+    border: 1px solid #000;
+    color: #000;
     padding: 8px 18px;
     border-radius: 999px;
     text-decoration: none;
     font-weight: bold;
     font-size: 14px;
+    transition: opacity 0.25s ease;
 }
-
+ 
 .cart a:hover {
-    background: #333;
+    background: #000;
+    color: #fff;
 }
  
 main {
