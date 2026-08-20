@@ -3,6 +3,39 @@
 {% block title %}Home - Glorified Pizzas{% endblock %}
  
 {% block content %}
-    <h2>Welcome to Glorified Pizzas</h2>
-    <p>We provide the most fresh and delicious pizzas in the city.</p>
+    <section class="hero">
+    <div class="hero-text">
+ 
+        <h1>Fresh Pizza,<br><h1>Made with</h1><h1>Passion.</h1>
+ 
+        <p class="hero-desc">
+            Stone-baked in our wood-fired oven using only the finest
+            ingredients — because life's too short for ordinary pizza.
+        </p>
+ 
+        <div class="cta-buttons">
+            <a href="{{ url_for('checkout') }}" class="btn-primary">Order Now </a>
+            <a href="{{ url_for('menu') }}" class="btn-outline">View Menu</a>
+        </div>
+ 
+        <div class="divider"></div>
+ 
+        <div class="stats">
+            <div>
+                <strong>15+</strong>
+                <span>Pizza Varieties</span>
+            </div>
+            <div>
+                <strong>Savings</strong>
+                <span>Low cost and Delicious</span>
+            </div>
+        </div>
+    </div>
+ 
+    <div class="hero-image">
+        <div class="circle-photo">
+            <img src="{{ url_for('static', filename='images/hero-pizza.jpg') }}" alt="Fresh pizza">
+        </div>
+    </div>
+</section>
 {% endblock %}
