@@ -37,7 +37,7 @@ nav {
     display: flex;
     gap: 20px;
     margin-left: 40px;   /* pushes nav links away from the h1, toward the left group */
-    margin-right: auto;  /* eats up remaining space, shoving header-actions to the right */
+    margin-right: auto;  /* pushes header-actions to the right */
 }
  
 header h1 {
@@ -231,7 +231,7 @@ footer {
     display: block;
 }
  
-/* ---------- RESPONSIVE ---------- */
+/* ---------- Responsive ---------- */
 @media (max-width: 900px) {
     .hero {
         flex-direction: column;
@@ -242,4 +242,60 @@ footer {
     .float-badge {
         left: 12px;
     }
+}
+/* ---------- MENU Page ---------- */
+.menu-category {
+    margin-bottom: 40px;
+}
+
+.menu-category h3 {
+    font-family: Georgia, serif;
+    border-bottom: 1px solid #e2d9cd;
+    padding-bottom: 8px;
+    margin-bottom: 18px;
+}
+
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 18px;
+}
+
+.product-card {
+    background: #fff;
+    border: 1px solid #eee;
+    border-radius: 12px;
+    padding: 16px;
+}
+
+.product-card h4 {
+    margin: 0 0 6px;
+}
+
+.product-desc {
+    font-size: 13px;
+    color: #666;
+    line-height: 1.5;
+    margin: 0 0 10px;
+}
+
+.tag-row {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-bottom: 10px;
+}
+
+.tag {
+    background: #f2f2f2;
+    color: #555;
+    font-size: 11px;
+    padding: 3px 9px;
+    border-radius: 999px;
+}
+
+.current-price {
+    color: #C1123B;
+    font-size: 18px;
+    font-weight: bold;
 }

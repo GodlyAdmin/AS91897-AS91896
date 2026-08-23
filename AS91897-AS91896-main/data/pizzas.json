@@ -1,0 +1,58 @@
+{
+    "1": {
+        "name": "The Crowning Glory",
+        "category": "Classic Pizzas",
+        "description": "Crushed San Marzano tomatoes, fresh buffalo mozzarella, and fresh basil leaves, finished with extra virgin olive oil.",
+        "base_price": 14.99,
+        "tags": ["Classic", "Vegetarian"]
+    },
+    "2": {
+        "name": "The Glorified Pepperoni",
+        "category": "Classic Pizzas",
+        "description": "Our signature red sauce and mozzarella, loaded with premium pepperoni slices that crisp up in the oven.",
+        "base_price": 16.99,
+        "tags": ["Classic", "Meat"]
+    },
+    "3": {
+        "name": "The Majestic Tapestry",
+        "category": "Classic Pizzas",
+        "description": "Traditional red sauce, mozzarella, sliced mushrooms, marinated artichoke hearts, smoked ham, and black olives.",
+        "base_price": 17.99,
+        "tags": ["Classic"]
+    },
+    "4": {
+        "name": "The Halo White",
+        "category": "White Pizzas",
+        "description": "No tomato sauce. An aromatic base of garlic-infused olive oil, dollops of creamy ricotta cheese, and melted mozzarella.",
+        "base_price": 15.99,
+        "tags": ["White", "Vegetarian"]
+    },
+    "5": {
+        "name": "The Grand Quartet",
+        "category": "White Pizzas",
+        "description": "A rich, white base blending four distinct cheeses: mozzarella, sharp gorgonzola blue cheese, fontina, and parmesan.",
+        "base_price": 18.99,
+        "tags": ["White", "Vegetarian"]
+    },
+    "6": {
+        "name": "The Sovereign Feast",
+        "category": "Meat Lovers",
+        "description": "A hearty meat base of seasoned minced beef, smoky streaky bacon, pepperoni, and Italian sausage over mozzarella.",
+        "base_price": 19.99,
+        "tags": ["Meat"]
+    },
+    "7": {
+        "name": "The Garden Splendour",
+        "category": "Garden & Vegetarian",
+        "description": "A vibrant vegetarian mix of sweet bell peppers, red onions, mushrooms, sweetcorn, and cherry tomatoes on a herb-tomato base.",
+        "base_price": 15.50,
+        "tags": ["Vegetarian"]
+    },
+    "8": {
+        "name": "The Imperial Tikka",
+        "category": "Specialty & Gourmet",
+        "description": "A rich, mildly spiced tikka gravy base topped with your choice of marinated chicken breast or paneer cubes, red onions, and green chilies.",
+        "base_price": 18.50,
+        "tags": ["Specialty"]
+    }
+}
