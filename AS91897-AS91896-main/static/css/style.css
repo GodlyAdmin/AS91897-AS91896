@@ -299,3 +299,131 @@ footer {
     font-size: 18px;
     font-weight: bold;
 }
+
+/* ---------- Shopping cart (for the menu page) ---------- */
+
+.order-page {
+    display: grid;
+    grid-template-columns: 1fr 300px;
+    gap: 30px;
+    align-items: start;
+}
+
+.add-form {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 12px;
+}
+
+.size-label {
+    font-size: 12px;
+    color: #888;
+}
+
+.add-form select,
+.add-form input[type="number"] {
+    padding: 6px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+}
+
+.add-form input[type="number"] {
+    width: 50px;
+}
+
+.add-to-cart-btn {
+    background: #C1123B;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 8px 14px;
+    font-weight: bold;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+.add-to-cart-btn:hover {
+    background: #a10f31;
+}
+
+.cart-panel {
+    position: sticky;
+    top: 20px;
+    background: #fff;
+    border: 1px solid #eee;
+    border-radius: 12px;
+    padding: 18px;
+}
+
+.cart-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 14px;
+}
+
+.cart-count {
+    background: #f2f2f2;
+    font-size: 12px;
+    padding: 3px 9px;
+    border-radius: 999px;
+}
+
+.cart-empty {
+    text-align: center;
+    color: #888;
+    padding: 20px 0;
+}
+
+.cart-items {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.cart-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    border-bottom: 1px solid #f0f0f0;
+    padding: 10px 0;
+}
+
+.cart-item-info span {
+    display: block;
+    font-size: 12px;
+    color: #888;
+}
+
+.cart-item-right {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.cart-remove-btn {
+    background: none;
+    border: none;
+    color: #aaa;
+    cursor: pointer;
+    font-size: 14px;
+    text-decoration: none;
+}
+
+.cart-remove-btn:hover {
+    color: #C1123B;
+}
+
+.cart-footer {
+    margin-top: 14px;
+    padding-top: 14px;
+    border-top: 1px solid #eee;
+    font-weight: bold;
+}
+
+.cart-subtotal-row {
+    display: flex;
+    justify-content: space-between;
+}

@@ -3,27 +3,85 @@
 {% block title %}Menu - Glorified Pizzas{% endblock %}
 
 {% block content %}
-<h2>Our Menu</h2>
+<div class="order-page">
+    <div class="order-main">
+        <h2>Our Menu</h2>
 
-{% for category, pizzas in categories.items() %}
-<section class="menu-category">
-    <h3>{{ category }}</h3>
-    <div class="product-grid">
-        {% for pizza in pizzas %}
-        <article class="product-card">
-            <div class="product-body">
-                <h4>{{ pizza.name }}</h4>
-                <p class="product-desc">{{ pizza.description }}</p>
-                <div class="tag-row">
-                    {% for tag in pizza.tags %}
-                    <span class="tag">{{ tag }}</span>
-                    {% endfor %}
-                </div>
-                <span class="current-price">${{ "%.2f"|format(pizza.base_price) }}</span>
+        {% for category, pizzas in categories.items() %}
+        <section class="menu-category">
+            <h3>{{ category }}</h3>
+            <div class="product-grid">
+                {% for pizza in pizzas %}
+                <article class="product-card">
+                    <div class="product-body">
+                        <h4>{{ pizza.name }}</h4>
+                        <p class="product-desc">{{ pizza.description }}</p>
+                        <div class="tag-row">
+                            {% for tag in pizza.tags %}
+                            <span class="tag">{{ tag }}</span>
+                            {% endfor %}
+                        </div>
+                        <span class="current-price">${{ "%.2f"|format(pizza.base_price) }}</span>
+
+                        <form action="{{ url_for('add_to_cart') }}" method="POST" class="add-form">
+                            <input type="hidden" name="pizza_id" value="{{ pizza.id }}">
+
+                            <label class="size-label" for="size-{{ pizza.id }}">Size</label>
+                            <select name="size" id="size-{{ pizza.id }}">
+                                <option value="S">Small</option>
+                                <option value="M" selected>Medium</option>
+                                <option value="L">Large</option>
+                                <option value="XL">X-Large</option>
+                            </select>
+
+                            <label class="size-label" for="qty-{{ pizza.id }}">Qty</label>
+                            <input type="number" name="quantity" id="qty-{{ pizza.id }}"
+                                   value="1" min="1" max="10">
+
+                            <button type="submit" class="add-to-cart-btn">Add to Cart</button>
+                        </form>
+                    </div>
+                </article>
+                {% endfor %}
             </div>
-        </article>
+        </section>
         {% endfor %}
     </div>
-</section>
-{% endfor %}
+
+    <aside class="cart-panel">
+        <div class="cart-header">
+            <h2>Your Order</h2>
+            <span class="cart-count">{{ cart|length }} item(s)</span>
+        </div>
+
+        {% if not cart %}
+        <div class="cart-empty">
+            <p class="cart-empty-title">Your cart is empty</p>
+            <p class="cart-empty-sub">Add some pizzas to get started.</p>
+        </div>
+        {% else %}
+        <ul class="cart-items">
+            {% for item_key, item in cart.items() %}
+            <li class="cart-item">
+                <div class="cart-item-info">
+                    <strong>{{ item.name }}</strong>
+                    <span>{{ item.size }} x {{ item.quantity }}</span>
+                </div>
+                <div class="cart-item-right">
+                    <span class="cart-item-price">${{ "%.2f"|format(item.price * item.quantity) }}</span>
+                    <a href="{{ url_for('remove_from_cart', item=item_key) }}" class="cart-remove-btn">&times;</a>
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
+
+        <div class="cart-footer">
+            <div class="cart-subtotal-row">
+                <span>Subtotal</span>
+                <span>${{ "%.2f"|format(subtotal) }}</span>
+            </div>
+        </div>
+        {% endif %}
+    </aside>
+</div>
 {% endblock %}
