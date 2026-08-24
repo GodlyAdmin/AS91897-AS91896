@@ -350,7 +350,7 @@ footer {
 
 .cart-panel {
     position: sticky;
-    top: 20px;
+    top: 68px;
     background: #fff;
     border: 1px solid #eee;
     border-radius: 12px;
@@ -372,6 +372,7 @@ footer {
 }
 
 .cart-empty {
+    margin-top: 20px;
     text-align: center;
     color: #888;
     padding: 20px 0;
