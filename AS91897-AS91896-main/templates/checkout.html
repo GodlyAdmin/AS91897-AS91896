@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block title %}Checkout - Glorified Pizzas{% endblock %}
+
+{% block content %}
+<h2>Checkout</h2>
+
+{% if not cart %}
+<p>Your cart is empty. <a href="{{ url_for('menu') }}">Browse the menu</a>.</p>
+{% else %}
+<table class="checkout-table">
+    <thead>
+        <tr><th>Pizza</th><th>Size</th><th>Qty</th><th>Price</th></tr>
+    </thead>
+    <tbody>
+        {% for item_key, item in cart.items() %}
+        <tr>
+            <td>{{ item.name }}</td>
+            <td>{{ item.size }}</td>
+            <td>{{ item.quantity }}</td>
+            <td>${{ "%.2f"|format(item.price * item.quantity) }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<div class="checkout-totals">
+    <div class="totals-row">
+        <span>Subtotal</span>
+        <span>${{ "%.2f"|format(subtotal) }}</span>
+    </div>
+    <div class="totals-row">
+        <span>Tax ({{ (0.15 * 100)|int }}%)</span>
+        <span>${{ "%.2f"|format(subtotal * 0.15) }}</span>
+    </div>
+    <div class="totals-row totals-final">
+        <span>Total</span>
+        <span>${{ "%.2f"|format(total) }}</span>
+    </div>
+</div>
+
+{% endif %}
+{% endblock %}

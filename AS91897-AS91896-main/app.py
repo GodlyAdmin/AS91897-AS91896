@@ -9,8 +9,7 @@ app.secret_key = 'HunterZolomon'
 @app.route("/")
 def home():
     return render_template("Index.html")
- 
- 
+
 @app.route('/menu')
 def menu():
     pizzas = load_pizzas()
@@ -19,40 +18,23 @@ def menu():
     subtotal = sum(item['price'] * item['quantity'] for item in cart.values())
 
     return render_template('menu.html', categories=categories, cart=cart, subtotal=subtotal)
- 
- 
+
 @app.route("/orders")
 def order_history():
     return render_template("order_history.html")
- 
- 
-@app.route("/checkout")
+
+@app.route('/checkout')
 def checkout():
-    return render_template("checkout.html")
+    cart = session.get('cart', {})
+    subtotal = sum(item['price'] * item['quantity'] for item in cart.values())
+    total = round(subtotal * (1 + 0.15), 2)
+
+    return render_template('checkout.html', cart=cart, subtotal=subtotal,
+                            total=total)
 
 @app.route("/login")
 def login():
     return render_template("login.html")
-
-# menu data
-
-# Groups the flat pizzas dict into category -> list of pizzas
-def group_by_category(pizzas):
-    grouped = {}
-    for pizza_id, pizza in pizzas.items():
-        category = pizza['category']
-        if category not in grouped:
-            grouped[category] = []
-        grouped[category].append({**pizza, 'id': pizza_id})
-    return grouped
-
-
-def load_pizzas():
-    with open('AS91897-AS91896-main/data/pizzas.json') as file:
-        return json.load(file)
-
-# The multiplier for the piza size price
-SIZE_MULTIPLIER = {'S': 0.8, 'M': 1.0, 'L': 1.2, 'XL': 1.4}
 
 @app.route('/cart/add', methods=['POST'])
 def add_to_cart():
@@ -112,7 +94,26 @@ def remove_from_cart():
         session.modified = True
 
     return redirect(url_for('menu'))
- 
+# menu data
+
+# Groups the flat pizzas dict into category -> list of pizzas
+def group_by_category(pizzas):
+    grouped = {}
+    for pizza_id, pizza in pizzas.items():
+        category = pizza['category']
+        if category not in grouped:
+            grouped[category] = []
+        grouped[category].append({**pizza, 'id': pizza_id})
+    return grouped
+
+
+def load_pizzas():
+    with open('AS91897-AS91896-main/data/pizzas.json') as file:
+        return json.load(file)
+
+# The multiplier for the piza size price
+SIZE_MULTIPLIER = {'S': 0.8, 'M': 1.0, 'L': 1.2, 'XL': 1.4}
+
 if __name__ == "__main__":
     app.run(debug=True)
  
