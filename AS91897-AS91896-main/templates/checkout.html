@@ -4,7 +4,7 @@
 
 {% block content %}
 <h2>Checkout</h2>
-
+<!-- ensures the customer cannot confirm an empty order -->
 {% if not cart %}
 <p>Your cart is empty. <a href="{{ url_for('menu') }}">Browse the menu</a>.</p>
 {% else %}
@@ -38,6 +38,12 @@
         <span>${{ "%.2f"|format(total) }}</span>
     </div>
 </div>
+<!-- Order Confirmation Form -->
+<form action="{{ url_for('confirm_order') }}" method="POST" class="confirm-form">
+    <label for="customer_name">Your name</label>
+    <input type="text" name="customer_name" id="customer_name" required>
+    <button type="submit" class="btn-primary">Confirm Order</button>
+</form>
 
 {% endif %}
 {% endblock %}

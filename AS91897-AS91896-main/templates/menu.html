@@ -47,13 +47,13 @@
         </section>
         {% endfor %}
     </div>
-
+    <!-- The panel that contains the cart so it does not interfere with the main menu content-->
     <aside class="cart-panel">
         <div class="cart-header">
             <h2>Your Order</h2>
             <span class="cart-count">{{ cart|length }} item(s)</span>
         </div>
-
+        <!-- ensures that the customer cannot order with an empty cart-->
         {% if not cart %}
         <div class="cart-empty">
             <p class="cart-empty-title">Your cart is empty</p>

@@ -1,4 +1,6 @@
 import json
+import sqlite3
+from datetime import datetime
 from flask import Flask, render_template, request, redirect, session, url_for, flash
  
 app = Flask(__name__)
@@ -19,6 +21,10 @@ def menu():
 
     return render_template('menu.html', categories=categories, cart=cart, subtotal=subtotal)
 
+@app.route("/login")
+def login():
+    return render_template("login.html")
+
 @app.route("/orders")
 def order_history():
     return render_template("order_history.html")
@@ -32,9 +38,53 @@ def checkout():
     return render_template('checkout.html', cart=cart, subtotal=subtotal,
                             total=total)
 
-@app.route("/login")
-def login():
-    return render_template("login.html")
+@app.route('/checkout/confirm', methods=['POST'])
+def confirm_order():
+    customer_name = request.form.get('customer_name')
+    cart = session.get('cart')
+
+    if not customer_name:
+        flash('Please enter your name to confirm the order.')
+        return redirect(url_for('checkout'))
+
+    if not cart:
+        flash('Your cart is empty. Please add items before confirming the order.')
+        return redirect(url_for('menu'))
+
+    subtotal = sum(item['price'] * item['quantity'] for item in cart.values())
+    total = round(subtotal * (1 + 0.15), 2)
+
+    flash(f"Thank you {customer_name}! Your order has been confirmed. Total: ${total}")
+
+    session.pop('cart', None)
+    session.modified = True
+
+    invoice_number = f"INV-{datetime.now().strftime('%Y%m%d%H%M%S')}"
+
+    with sqlite3.connect('pizza_shop.db') as conn:
+        cursor = conn.cursor()
+        cursor.execute('''
+            INSERT INTO orders (invoice_number, customer_name, cart_items, total)
+            VALUES (?, ?, ?, ?)
+        ''', (invoice_number, customer_name, json.dumps(cart), total))
+        conn.commit()
+
+    return render_template('order_confirmed.html', invoice_number=invoice_number,
+                            customer_name=customer_name, cart=cart, total=total)
+
+def initialise_database():
+    with sqlite3.connect('pizza_shop.db') as conn:
+        cursor = conn.cursor()
+        cursor.execute('''
+            CREATE TABLE IF NOT EXISTS orders (
+                order_id INTEGER PRIMARY KEY AUTOINCREMENT,
+                invoice_number TEXT,
+                customer_name TEXT,
+                cart_items TEXT,
+                total REAL,
+                date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            )
+        ''')
 
 @app.route('/cart/add', methods=['POST'])
 def add_to_cart():
@@ -115,5 +165,6 @@ def load_pizzas():
 SIZE_MULTIPLIER = {'S': 0.8, 'M': 1.0, 'L': 1.2, 'XL': 1.4}
 
 if __name__ == "__main__":
+    initialise_database()
     app.run(debug=True)
  
