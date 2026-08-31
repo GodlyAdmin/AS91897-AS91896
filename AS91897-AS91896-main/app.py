@@ -21,9 +21,30 @@ def menu():
 
     return render_template('menu.html', categories=categories, cart=cart, subtotal=subtotal)
 
-@app.route("/login")
+ADMIN_USERNAME = 'Admin'
+ADMIN_PASSWORD = 'GloryGodspeed'
+
+@app.route("/login", methods=['GET', 'POST'])
 def login():
-    return render_template("login.html")
+    if request.method == 'POST':
+        username = request.form.get('username')
+        password = request.form.get('password')
+
+        if username == ADMIN_USERNAME and password == ADMIN_PASSWORD:
+            session['is_admin'] = True
+            flash('Logged in successfully.')
+            return redirect(url_for('home'))
+
+        flash('Incorrect username or password.')
+        return redirect(url_for('login'))
+
+    return render_template('login.html')
+
+@app.route('/logout')
+def logout():
+    session.pop('is_admin', None)
+    flash('Logged out.')
+    return redirect(url_for('home'))
 
 @app.route("/orders")
 def order_history():
