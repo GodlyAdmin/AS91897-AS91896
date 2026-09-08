@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Dashboard - Glorified Pizzas{% endblock %}
+
+{% block content %}
+<h2>Admin Dashboard</h2>
+
+<div class="admin-stats">
+    <div class="stat-box">
+        <strong>{{ order_count }}</strong>
+        <span>Total Orders</span>
+    </div>
+    <div class="stat-box">
+        <strong>${{ "%.2f"|format(revenue) }}</strong>
+        <span>Total Revenue</span>
+    </div>
+</div>
+
+{% if not orders %}
+<p>No orders yet.</p>
+{% else %}
+<table class="checkout-table">
+    <thead>
+        <tr>
+            <th>Invoice</th>
+            <th>Customer</th>
+            <th>Items</th>
+            <th>Total</th>
+            <th>Date</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for order in orders %}
+        <tr>
+            <td>{{ order.invoice_number }}</td>
+            <td>{{ order.customer_name }}</td>
+            <td>{{ order.cart_items|length }} item(s)</td>
+            <td>${{ "%.2f"|format(order.total) }}</td>
+            <td>{{ order.date }}</td>
+            <td>
+                <form action="{{ url_for('admin_delete_order', order_id=order.order_id) }}" method="POST">
+                    <button type="submit" class="cart-remove-btn">Delete</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endif %}
+{% endblock %}

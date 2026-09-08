@@ -103,7 +103,39 @@ nav a:hover {
     background: #000;
     color: #fff;
 }
- 
+
+.logout a {
+    border: 1px solid #C1440E;
+    color: #C1440E;
+    padding: 8px 18px;
+    border-radius: 999px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 14px;
+    transition: opacity 0.25s ease;
+}
+
+.logout a:hover {
+    background: #C1440E;
+    color: #fff;
+}
+
+.admin-dashboard a {
+    border: 1px solid #C1440E;
+    color: #C1440E;
+    padding: 8px 18px;
+    border-radius: 999px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 14px;
+    transition: opacity 0.25s ease;
+}
+
+.admin-dashboard a:hover {
+    background: #C1440E;
+    color: #fff;
+}
+
 main {
     max-width: 1100px;
     margin: 0 auto;

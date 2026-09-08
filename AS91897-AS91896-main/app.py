@@ -46,6 +46,46 @@ def logout():
     flash('Logged out.')
     return redirect(url_for('home'))
 
+@app.route('/admin')
+def admin_dashboard():
+    if not session.get('is_admin'):
+        flash('Please log in to view the admin dashboard.')
+        return redirect(url_for('login'))
+
+    with sqlite3.connect('pizza_shop.db') as conn:
+        cursor = conn.cursor()
+        cursor.execute('SELECT * FROM orders ORDER BY order_id DESC')
+        rows = cursor.fetchall()
+
+    orders = []
+    revenue = 0
+    for row in rows:
+        orders.append({
+            'order_id': row[0],
+            'invoice_number': row[1],
+            'customer_name': row[2],
+            'cart_items': json.loads(row[3]),
+            'total': row[4],
+            'date': row[5]
+        })
+        revenue += row[4]
+
+    return render_template('admin.html', orders=orders, order_count=len(orders), revenue=revenue)
+
+@app.route('/admin/delete/<int:order_id>', methods=['POST'])
+def admin_delete_order(order_id):
+    if not session.get('is_admin'):
+        flash('Please log in to do that.')
+        return redirect(url_for('login'))
+
+    with sqlite3.connect('pizza_shop.db') as conn:
+        cursor = conn.cursor()
+        cursor.execute('DELETE FROM orders WHERE order_id = ?', (order_id,))
+        conn.commit()
+
+    flash('Order deleted.')
+    return redirect(url_for('admin_dashboard'))
+
 @app.route("/orders")
 def order_history():
     return render_template("order_history.html")

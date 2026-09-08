@@ -19,9 +19,18 @@
         <div class="cart">
             <a href="{{ url_for('checkout') }}">Cart</a>
         </div>
+        {% if session.get('is_admin') %}
+        <div class="admin-dashboard">
+            <a href="{{ url_for('admin_dashboard') }}">Admin Dashboard</a>
+        </div>
+        <div class="logout">
+            <a href="{{ url_for('logout') }}">Logout</a>
+        </div>
+        {% else %}
         <div class="login">
             <a href="{{ url_for('login') }}">Login</a>
         </div>    
+        {% endif %}
     </div>
 </header>
 
