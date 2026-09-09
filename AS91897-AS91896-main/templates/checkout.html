@@ -42,6 +42,10 @@
 <form action="{{ url_for('confirm_order') }}" method="POST" class="confirm-form">
     <label for="customer_name">Your name</label>
     <input type="text" name="customer_name" id="customer_name" required>
+    <label for="customer_email">Your email</label>
+    <input type="email" name="customer_email" id="customer_email" required>
+    <label for="delivery_address">Delivery Address</label>
+    <input type="text" name="delivery_address" id="delivery_address" placeholder="Delivery Address" required>
     <button type="submit" class="btn-primary">Confirm Order</button>
 </form>
 

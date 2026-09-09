@@ -103,6 +103,8 @@ def checkout():
 def confirm_order():
     customer_name = request.form.get('customer_name')
     cart = session.get('cart')
+    customer_email = request.form.get('customer_email')
+    delivery_address = request.form.get('delivery_address')
 
     if not customer_name:
         flash('Please enter your name to confirm the order.')
@@ -131,7 +133,7 @@ def confirm_order():
         conn.commit()
 
     return render_template('order_confirmed.html', invoice_number=invoice_number,
-                            customer_name=customer_name, cart=cart, total=total)
+                            customer_name=customer_name, cart=cart, total=total, delivery_address=delivery_address, customer_email=customer_email)
 
 def initialise_database():
     with sqlite3.connect('pizza_shop.db') as conn:
