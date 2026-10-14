@@ -6,7 +6,11 @@
 <div class="order-page">
     <div class="order-main">
         <h2>Our Menu</h2>
-
+        <form action="{{ url_for('menu') }}" method="GET" class="search-form">
+            <input type="text" name="q" placeholder="Search pizzas, ingredients..."
+                   value="{{ search_term }}">
+            <button type="submit" class="btn-outline">Search</button>
+        </form>
         {% for category, pizzas in categories.items() %}
         <section class="menu-category">
             <h3>{{ category }}</h3>

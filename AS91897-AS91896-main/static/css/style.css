@@ -150,6 +150,22 @@ footer {
     font-size: 14px;
     color: #555;
 }
+.flashes {
+    max-width: 1100px;
+    margin: 16px auto 0;
+    padding: 0 32px;
+    list-style: none;
+}
+
+.flashes li {
+    background: #FDEEF1;
+    color: #a10f31;
+    border: 1px solid #f3c9d2;
+    padding: 10px 16px;
+    border-radius: 8px;
+    margin-bottom: 8px;
+    font-size: 14px;
+}
  
 /* ---------- HERO (homepage) ---------- */
 .hero {
@@ -460,7 +476,6 @@ footer {
     display: flex;
     justify-content: space-between;
 }
-
 /* ---------- Checkout page totals table ---------- */
 .checkout-table {
     width: 100%;
@@ -492,6 +507,46 @@ footer {
     border-top: 1px solid #ddd;
     padding-top: 10px;
     margin-top: 6px;
+}
+/* ---------- Checkout page order saving ---------- */
+.confirm-form {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.confirm-form input {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+}
+
+.btn-primary,
+.btn-outline {
+    display: inline-block;
+    padding: 12px 22px;
+    border-radius: 8px;
+    font-weight: bold;
+    text-decoration: none;
+    font-size: 14px;
+    border: none;
+    cursor: pointer;
+}
+
+.btn-primary {
+    background: #C1123B;
+    color: #fff;
+}
+
+.btn-primary:hover {
+    background: #a10f31;
+}
+
+.btn-outline {
+    background: transparent;
+    color: #1a1a1a;
+    border: 1px solid #ccc;
 }
 /* ---------- Order History Slabs ---------- */
 .order-history-list {
@@ -531,6 +586,37 @@ footer {
     color: #C1123B;
     margin: 0;
 }
+/* ---------- Extra finishing touches ---------- */
+.product-card,
+.cart-panel,
+.stat-box,
+.order-history-card {
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.product-card:hover {
+    box-shadow: 0 10px 24px -14px rgba(36, 26, 18, 0.3);
+    transform: translateY(-2px);
+}
+
+.btn-primary,
+.add-to-cart-btn {
+    transition: background-color 0.15s ease, transform 0.1s ease;
+}
+
+.btn-primary:active,
+.add-to-cart-btn:active {
+    transform: scale(0.97);
+}
+
+nav a {
+    transition: color 0.15s ease;
+}
+
+.flashes li {
+    box-shadow: 0 6px 16px -10px rgba(161, 15, 49, 0.4);
+}
+
 /* ---------- General Responsive Design ---------- */
 @media (max-width: 700px) {
     header {
@@ -599,4 +685,26 @@ footer {
         flex-direction: column;
         gap: 2px;
     }
+}
+
+/* ---------- Extra features (Promo code and search) ---------- */
+.search-form,
+.promo-form {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 24px;
+}
+
+.search-form input,
+.promo-form input {
+    flex: 1;
+    max-width: 320px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+}
+
+.promo-row span {
+    color: #2E9C6F;
+    font-weight: bold;
 }

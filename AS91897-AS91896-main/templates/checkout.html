@@ -24,15 +24,26 @@
     </tbody>
 </table>
 
+<form action="{{ url_for('checkout') }}" method="GET" class="promo-form">
+    <input type="text" name="promo" placeholder="Promo code" value="{{ code_used or '' }}">
+    <button type="submit" class="btn-outline">Apply</button>
+</form>
+
 <div class="checkout-totals">
     <div class="totals-row">
         <span>Subtotal</span>
         <span>${{ "%.2f"|format(subtotal) }}</span>
     </div>
     <div class="totals-row">
-        <span>Included Tax ({{ (0.15 * 100)|int }}%)</span>
-        <span>${{ "%.2f"|format(subtotal * 3/23) }}</span>
+        <span>GST included ({{ gst_rate }}%)</span>
+        <span>${{ "%.2f"|format(gst_amount) }}</span>
     </div>
+    {% if discount_applied %}
+    <div class="totals-row promo-row">
+        <span>Promo ({{ code_used }})</span>
+        <span>-${{ "%.2f"|format(subtotal - total) }}</span>
+    </div>
+    {% endif %}
     <div class="totals-row totals-final">
         <span>Total</span>
         <span>${{ "%.2f"|format(total) }}</span>
@@ -40,6 +51,7 @@
 </div>
 <!-- Order Confirmation Form -->
 <form action="{{ url_for('confirm_order') }}" method="POST" class="confirm-form">
+    <input type="hidden" name="promo" value="{{ code_used or '' }}">
     <label for="customer_name">Your name</label>
     <input type="text" name="customer_name" id="customer_name" required>
     <label for="customer_email">Your email</label>

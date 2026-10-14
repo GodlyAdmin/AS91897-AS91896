@@ -14,12 +14,14 @@ def home():
 
 @app.route('/menu')
 def menu():
+    search_term = request.args.get('q', '')
     pizzas = load_pizzas()
-    categories = group_by_category(pizzas)
+    categories = group_by_category(pizzas, search_term)
     cart = session.get('cart', {})
     subtotal = sum(item['price'] * item['quantity'] for item in cart.values())
 
-    return render_template('menu.html', categories=categories, cart=cart, subtotal=subtotal)
+    return render_template('menu.html', categories=categories, cart=cart,
+                            subtotal=subtotal, search_term=search_term)
 
 ADMIN_USERNAME = 'Admin'
 ADMIN_PASSWORD = 'GloryGodspeed'
@@ -108,12 +110,32 @@ def order_history():
 
 @app.route('/checkout')
 def checkout():
+    GST_RATE = 15  # percent, prices already include GST
     cart = session.get('cart', {})
     subtotal = sum(item['price'] * item['quantity'] for item in cart.values())
-    total = round(subtotal * (1), 2)
+    total, discount_applied, code_used = calculate_total(
+        subtotal, request.args.get('promo', ''))
+    gst_amount = total * GST_RATE / (100 + GST_RATE)
 
     return render_template('checkout.html', cart=cart, subtotal=subtotal,
-                            total=total)
+                           total=total, discount_applied=discount_applied,
+                           code_used=code_used, gst_rate=GST_RATE,
+                           gst_amount=gst_amount)
+
+def calculate_total(subtotal, promo_code=''):
+    total = round(subtotal * (1), 2)
+    discount_applied = False
+    code_used = None
+
+    promo_code = promo_code.strip().upper()
+    if promo_code in PROMO_CODES:
+        total = total * (1 - PROMO_CODES[promo_code])
+        discount_applied = True
+        code_used = promo_code
+    elif promo_code:
+        flash('That promo code is not valid.')
+
+    return round(total, 2), discount_applied, code_used
 
 @app.route('/checkout/confirm', methods=['POST'])
 def confirm_order():
@@ -131,7 +153,8 @@ def confirm_order():
         return redirect(url_for('menu'))
 
     subtotal = sum(item['price'] * item['quantity'] for item in cart.values())
-    total = round(subtotal * (1), 2)
+    total, discount_applied, code_used = calculate_total(
+        subtotal, request.form.get('promo', ''))
 
     flash(f"Thank you {customer_name}! Your order has been confirmed. Total: ${total}")
 
@@ -148,8 +171,8 @@ def confirm_order():
         ''', (invoice_number, customer_name, json.dumps(cart), total))
         conn.commit()
 
-    return render_template('order_confirmed.html', invoice_number=invoice_number,
-                            customer_name=customer_name, cart=cart, total=total, delivery_address=delivery_address, customer_email=customer_email)
+    return render_template('order_confirmed.html', invoice_number=invoice_number,customer_name=customer_name, cart=cart, total=total,delivery_address=delivery_address,
+                           customer_email=customer_email,discount_applied=discount_applied, code_used=code_used)
 
 def initialise_database():
     with sqlite3.connect('pizza_shop.db') as conn:
@@ -226,13 +249,22 @@ def remove_from_cart():
 # menu data
 
 # Groups the flat pizzas dict into category -> list of pizzas
-def group_by_category(pizzas):
+# Also Filters the pizzas based on the search term if provided
+def group_by_category(pizzas, search_term=''):
+    search_term = search_term.strip().lower()
     grouped = {}
+
     for pizza_id, pizza in pizzas.items():
+        if search_term:
+            haystack = f"{pizza['name']} {pizza['description']} {' '.join(pizza['tags'])}".lower()
+            if search_term not in haystack:
+                continue
+
         category = pizza['category']
         if category not in grouped:
             grouped[category] = []
         grouped[category].append({**pizza, 'id': pizza_id})
+
     return grouped
 
 
@@ -243,6 +275,8 @@ def load_pizzas():
 # The multiplier for the piza size price
 SIZE_MULTIPLIER = {'S': 0.8, 'M': 1.0, 'L': 1.2, 'XL': 1.4}
 
+# code -> discount as a decimal fraction
+PROMO_CODES = {'WELCOME10': 0.10, 'GLORY20': 0.20}
 if __name__ == "__main__":
     initialise_database()
     app.run(debug=True)

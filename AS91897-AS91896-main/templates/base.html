@@ -7,7 +7,15 @@
 </head>
     <script src="{{ url_for('static', filename='js/nav.js') }}"></script>
 <body>
-
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
+        <ul class="flashes">
+        {% for message in messages %}
+            <li>{{ message }}</li>
+        {% endfor %}
+        </ul>
+    {% endif %}
+{% endwith %}
 <header>
     <h1>Glorified Pizzas</h1>    
     <nav>
