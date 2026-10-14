@@ -493,3 +493,41 @@ footer {
     padding-top: 10px;
     margin-top: 6px;
 }
+/* ---------- Order History Slabs ---------- */
+.order-history-list {
+    display: grid;
+    gap: 16px;
+}
+
+.order-history-card {
+    background: #fff;
+    border: 1px solid #eee;
+    border-radius: 10px;
+    padding: 16px 20px;
+}
+
+.order-history-header {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    color: #888;
+    margin-bottom: 6px;
+}
+
+.order-history-customer {
+    font-weight: bold;
+    margin: 0 0 8px;
+}
+
+.order-history-items {
+    margin: 0 0 10px;
+    padding-left: 18px;
+    font-size: 14px;
+    color: #555;
+}
+
+.order-history-total {
+    font-weight: bold;
+    color: #C1123B;
+    margin: 0;
+}

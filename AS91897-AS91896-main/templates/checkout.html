@@ -30,8 +30,8 @@
         <span>${{ "%.2f"|format(subtotal) }}</span>
     </div>
     <div class="totals-row">
-        <span>Tax ({{ (0.15 * 100)|int }}%)</span>
-        <span>${{ "%.2f"|format(subtotal * 0.15) }}</span>
+        <span>Included Tax ({{ (0.15 * 100)|int }}%)</span>
+        <span>${{ "%.2f"|format(subtotal * 3/23) }}</span>
     </div>
     <div class="totals-row totals-final">
         <span>Total</span>

@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}Order History - Glorified Pizzas{% endblock %}
+
+{% block content %}
+<h2>Order History</h2>
+
+{% if not orders %}
+<p>No orders have been placed yet.</p>
+{% else %}
+<div class="order-history-list">
+    {% for order in orders %}
+    <div class="order-history-card">
+        <div class="order-history-header">
+            <strong>{{ order.invoice_number }}</strong>
+            <span>{{ order.date }}</span>
+        </div>
+        <p class="order-history-customer">{{ order.customer_name }}</p>
+        <ul class="order-history-items">
+            {% for item_key, item in order.cart_items.items() %}
+            <li>{{ item.quantity }}x {{ item.name }} ({{ item.size }})</li>
+            {% endfor %}
+        </ul>
+        <p class="order-history-total">Total: ${{ "%.2f"|format(order.total) }}</p>
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
+{% endblock %}

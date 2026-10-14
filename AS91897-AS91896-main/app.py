@@ -88,13 +88,29 @@ def admin_delete_order(order_id):
 
 @app.route("/orders")
 def order_history():
-    return render_template("order_history.html")
+    with sqlite3.connect('pizza_shop.db') as conn:
+        cursor = conn.cursor()
+        cursor.execute('SELECT * FROM orders ORDER BY order_id DESC')
+        rows = cursor.fetchall()
+
+    orders = []
+    for row in rows:
+        orders.append({
+            'order_id': row[0],
+            'invoice_number': row[1],
+            'customer_name': row[2],
+            'cart_items': json.loads(row[3]),
+            'total': row[4],
+            'date': row[5]
+        })
+
+    return render_template('order_history.html', orders=orders)
 
 @app.route('/checkout')
 def checkout():
     cart = session.get('cart', {})
     subtotal = sum(item['price'] * item['quantity'] for item in cart.values())
-    total = round(subtotal * (1 + 0.15), 2)
+    total = round(subtotal * (1), 2)
 
     return render_template('checkout.html', cart=cart, subtotal=subtotal,
                             total=total)
@@ -115,7 +131,7 @@ def confirm_order():
         return redirect(url_for('menu'))
 
     subtotal = sum(item['price'] * item['quantity'] for item in cart.values())
-    total = round(subtotal * (1 + 0.15), 2)
+    total = round(subtotal * (1), 2)
 
     flash(f"Thank you {customer_name}! Your order has been confirmed. Total: ${total}")
 
