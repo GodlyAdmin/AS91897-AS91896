@@ -192,12 +192,18 @@ def initialise_database():
 def add_to_cart():
     pizza_id = request.form.get('pizza_id')
     size = request.form.get('size')
-    quantity = int(request.form['quantity'])
+    quantity_raw = request.form.get('quantity')
 
     pizzas = load_pizzas()
 
-    if pizza_id not in pizzas or size not in SIZE_MULTIPLIER:
+    if pizza_id not in pizzas or size not in SIZE_MULTIPLIER or not quantity_raw:
         flash('Invalid item selected.')
+        return redirect(url_for('menu'))
+
+    try:
+        quantity = int(quantity_raw)
+    except ValueError:
+        flash('Invalid quantity entered.')
         return redirect(url_for('menu'))
 
     if quantity <= 0 or quantity > 10:
