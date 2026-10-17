@@ -277,6 +277,7 @@ SIZE_MULTIPLIER = {'S': 0.8, 'M': 1.0, 'L': 1.2, 'XL': 1.4}
 
 # code -> discount as a decimal fraction
 PROMO_CODES = {'WELCOME10': 0.10, 'GLORY20': 0.20}
+
 if __name__ == "__main__":
     initialise_database()
     app.run(debug=True)

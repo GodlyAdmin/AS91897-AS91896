@@ -11,18 +11,18 @@ header {
     justify-content: space-between;
     padding: 16px 32px;
     border-bottom: 1px solid #ddd;
-    position: sticky;
-    top: 0;
-    z-index: 100;
+    position: sticky;    /*keeps the header visible at the top while the page scrolls */
+    top: 0;              /* the sticky header sticks once it reaches 0px from the top */
+    z-index: 100;        /* keeps the header above the product cards and cart panel */
     background: #FBF6EC;
     transition: background-color 0.25s ease, backdrop-filter 0.25s ease,
-        border-color 0.25s ease;
+        border-color 0.25s ease;   /* smoothly animates the change when "scrolled" is added */
 }
  
-header.scrolled {
-    background: rgba(251, 246, 236, 0.55);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
+header.scrolled {   
+    background: rgba(251, 246, 236, 0.55);   /* semi-transparent version of the page colour */
+    backdrop-filter: blur(8px);              /* frosted-glass blur of whatever is behind the header */
+    -webkit-backdrop-filter: blur(8px);     
     border-bottom-color: rgba(221, 221, 221, 0.4);
 }
  
@@ -30,7 +30,7 @@ header.scrolled h1,
 header.scrolled nav a,
 header.scrolled .login a,
 header.scrolled .cart a {
-    opacity: 0.7;
+    opacity: 0.7;   /* fades the header text and buttons slightly while scrolled */
 }
  
 nav {
@@ -45,7 +45,7 @@ header h1 {
     margin: 0;
     color: #C1123B;
     font-weight: bold;
-    text-shadow: 1px 1px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000;
+    text-shadow: 1px 1px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000;   
     transition: opacity 0.25s ease;
 }
  
@@ -54,7 +54,7 @@ nav a {
     text-decoration: none;
     color: #241A12;
     font-weight: bold;
-    transition: opacity 0.25s ease;
+    transition: opacity 0.25s ease;   
 }
  
 nav a:hover {
@@ -72,7 +72,7 @@ nav a:hover {
     border: 1px solid #C1440E;
     color: #C1440E;
     padding: 8px 18px;
-    border-radius: 999px;
+    border-radius: 999px;   /* pill shape */
     text-decoration: none;
     font-weight: bold;
     font-size: 14px;
@@ -92,7 +92,7 @@ nav a:hover {
     border: 1px solid #000;
     color: #000;
     padding: 8px 18px;
-    border-radius: 999px;
+    border-radius: 999px;   /* pill shape */
     text-decoration: none;
     font-weight: bold;
     font-size: 14px;
@@ -103,44 +103,44 @@ nav a:hover {
     background: #000;
     color: #fff;
 }
-
+ 
 .logout a {
     border: 1px solid #C1440E;
     color: #C1440E;
     padding: 8px 18px;
-    border-radius: 999px;
+    border-radius: 999px;   /* pill shape */
     text-decoration: none;
     font-weight: bold;
     font-size: 14px;
     transition: opacity 0.25s ease;
 }
-
+ 
 .logout a:hover {
     background: #C1440E;
     color: #fff;
 }
-
+ 
 .admin-dashboard a {
     border: 1px solid #C1440E;
     color: #C1440E;
     padding: 8px 18px;
-    border-radius: 999px;
+    border-radius: 999px;   /* pill shape */
     text-decoration: none;
     font-weight: bold;
     font-size: 14px;
     transition: opacity 0.25s ease;
 }
-
+ 
 .admin-dashboard a:hover {
     background: #C1440E;
     color: #fff;
 }
-
+ 
 main {
     max-width: 1100px;
-    margin: 0 auto;
+    margin: 0 auto;      /* auto left/right margins centre the content */
     padding: 40px 32px;
-    min-height: 60vh;
+    min-height: 60vh;    /* keeps the footer low on short pages (60% of the screen height) */
 }
  
 footer {
@@ -150,13 +150,13 @@ footer {
     font-size: 14px;
     color: #555;
 }
-.flashes {
+.flashes {   /* Flask flash messages (the pink notification boxes) */
     max-width: 1100px;
     margin: 16px auto 0;
     padding: 0 32px;
     list-style: none;
 }
-
+ 
 .flashes li {
     background: #FDEEF1;
     color: #a10f31;
@@ -174,12 +174,12 @@ footer {
     justify-content: space-between;
     gap: 60px;
     padding: 40px 0;
-    flex-wrap: wrap;
+    flex-wrap: wrap;   /* lets the image drop below the text when there isn't enough room */
 }
  
 .hero-text {
-    flex: 1 1 460px;
-    max-width: 560px;
+    flex: 1 1 460px;   /* shorthand for grow 1, shrink 1, starting width 460px */
+    max-width: 560px;  /* but it never grows wider than 560px */
 }
  
 .hero h1 {
@@ -208,17 +208,17 @@ footer {
 .btn-primary,
 .btn-outline {
     display: inline-block;
-    padding: 14px 26px;
+    padding: 14px 26px;   /* overridden by 12px 22px further down */
     border-radius: 8px;
     font-weight: bold;
     text-decoration: none;
-    font-size: 15px;
+    font-size: 15px;      /* overridden by 14px further down */
 }
  
 .btn-primary {
     background: #C1123B;
     color: #fff;
-    border: 1px solid #C1123B;
+    border: 1px solid #C1123B;   /* reset to "none" by the later .btn-primary, .btn-outline rule */
 }
  
 .btn-primary:hover {
@@ -247,7 +247,7 @@ footer {
 }
  
 .stats strong {
-    display: block;
+    display: block;   /* puts the number on its own line above the label */
     font-family: Georgia, serif;
     font-size: 24px;
     color: #C1123B;
@@ -266,21 +266,21 @@ footer {
  
 .circle-photo {
     width: 100%;
-    aspect-ratio: 1 / 1;
-    border-radius: 50%;
-    overflow: hidden;
+    aspect-ratio: 1 / 1;   /* height always equals width */
+    border-radius: 50%;    /* turns into a circle */
+    overflow: hidden;      /* crops the image to the circle shape */
     background: #1a1210;
 }
  
 .circle-photo img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
-    display: block;
+    object-fit: cover;   /* fills the circle and crops the edges instead of stretching the image */
+    display: block;      /* removes the small gap that appears under inline images */
 }
  
 /* ---------- Responsive ---------- */
-@media (max-width: 900px) {
+@media (max-width: 900px) {   /* applies only when the screen is 900px wide or less */
     .hero {
         flex-direction: column;
     }
@@ -305,7 +305,7 @@ footer {
 
 .product-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));   /* as many columns as fit, each at least 240px wide, sharing leftover space equally */
     gap: 18px;
 }
 
@@ -339,7 +339,7 @@ footer {
     color: #555;
     font-size: 11px;
     padding: 3px 9px;
-    border-radius: 999px;
+    border-radius: 999px;   /* pill shape */
 }
 
 .current-price {
@@ -352,9 +352,9 @@ footer {
 
 .order-page {
     display: grid;
-    grid-template-columns: 1fr 300px;
+    grid-template-columns: 1fr 300px;   /* menu takes the remaining space, cart is a fixed 300px column */
     gap: 30px;
-    align-items: start;
+    align-items: start;   /* stops the cart stretching to the menu's height (needed for sticky to work) */
 }
 
 .add-form {
@@ -397,8 +397,8 @@ footer {
 }
 
 .cart-panel {
-    position: sticky;
-    top: 68px;
+    position: sticky;   /* scrolls normally until it reaches the "top" value, then sticks in place */
+    top: 68px;          /* roughly the header's height, so the cart stops just below the header */
     background: #fff;
     border: 1px solid #eee;
     border-radius: 12px;
@@ -416,7 +416,7 @@ footer {
     background: #f2f2f2;
     font-size: 12px;
     padding: 3px 9px;
-    border-radius: 999px;
+    border-radius: 999px;   /* pill shape */
 }
 
 .cart-empty {
@@ -441,7 +441,7 @@ footer {
 }
 
 .cart-item-info span {
-    display: block;
+    display: block;   /* puts the size/quantity line under the pizza name */
     font-size: 12px;
     color: #888;
 }
@@ -474,12 +474,21 @@ footer {
 
 .cart-subtotal-row {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-between;   /* "Subtotal" on the left, amount on the right */
+}
+
+.Scrollable-cart-items-container {
+    max-height: 400px;   /* caps the cart's height; extra items scroll instead of growing the panel */
+    overflow-x: auto;
+    overflow-y: auto;
+    margin-bottom: 10px;
+    scrollbar-width: thin;                 /* Firefox: thinner scrollbar */
+    scrollbar-color: #C1123B #f0f0f0;      /* Firefox: thumb colour, then track colour */
 }
 /* ---------- Checkout page totals table ---------- */
 .checkout-table {
     width: 100%;
-    border-collapse: collapse;
+    border-collapse: collapse;   /* merges cell borders into single lines instead of double borders */
     margin-bottom: 24px;
 }
 
@@ -492,7 +501,7 @@ footer {
 
 .checkout-totals {
     max-width: 320px;
-    margin-left: auto;
+    margin-left: auto;   /* pushes the totals box to the right edge */
 }
 
 .totals-row {
@@ -522,7 +531,7 @@ footer {
     border-radius: 6px;
 }
 
-.btn-primary,
+.btn-primary,   /* second definition: these values override the hero section's padding and font-size */
 .btn-outline {
     display: inline-block;
     padding: 12px 22px;
@@ -530,7 +539,7 @@ footer {
     font-weight: bold;
     text-decoration: none;
     font-size: 14px;
-    border: none;
+    border: none;   /* also removes .btn-primary's border (.btn-outline sets its own border below) */
     cursor: pointer;
 }
 
@@ -591,12 +600,12 @@ footer {
 .cart-panel,
 .stat-box,
 .order-history-card {
-    transition: box-shadow 0.2s ease, transform 0.2s ease;
+    transition: box-shadow 0.2s ease, transform 0.2s ease;   /* animates hover changes smoothly instead of snapping */
 }
 
 .product-card:hover {
-    box-shadow: 0 10px 24px -14px rgba(36, 26, 18, 0.3);
-    transform: translateY(-2px);
+    box-shadow: 0 10px 24px -14px rgba(36, 26, 18, 0.3);   /* the negative last value tucks the soft shadow under the card */
+    transform: translateY(-2px);                            /* lifts the card up 2px on hover */
 }
 
 .btn-primary,
@@ -606,11 +615,11 @@ footer {
 
 .btn-primary:active,
 .add-to-cart-btn:active {
-    transform: scale(0.97);
+    transform: scale(0.97);   /* "press" effect: button shrinks slightly while clicked */
 }
 
 nav a {
-    transition: color 0.15s ease;
+    transition: color 0.15s ease;   /* replaces the earlier opacity transition, so nav links no longer fade smoothly on scroll */
 }
 
 .flashes li {
@@ -618,9 +627,9 @@ nav a {
 }
 
 /* ---------- General Responsive Design ---------- */
-@media (max-width: 700px) {
+@media (max-width: 700px) {   /* everything inside applies only on screens 700px wide or less */
     header {
-        flex-direction: column;
+        flex-direction: column;   /* stacks logo, nav and buttons vertically */
         align-items: flex-start;
         gap: 10px;
     }
@@ -630,7 +639,7 @@ nav a {
     }
 
     nav a {
-        margin-left: 0;
+        margin-left: 0;       /* removes the desktop left margin so links line up with the left edge */
         margin-right: 16px;
     }
 
@@ -648,16 +657,16 @@ nav a {
 
     .hero-image {
         max-width: 280px;
-        margin: 0 auto;
+        margin: 0 auto;   /* centres the smaller image */
     }
 
     .product-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr;   /* one pizza card per row */
     }
 
     .add-form {
         flex-direction: column;
-        align-items: stretch;
+        align-items: stretch;   /* makes the size, quantity and button fields full width */
     }
 
     .add-to-cart-btn {
@@ -685,6 +694,15 @@ nav a {
         flex-direction: column;
         gap: 2px;
     }
+ 
+    .order-page {
+        grid-template-columns: 1fr;   /* collapses menu + cart into a single column */
+    }
+ 
+    .cart-panel {
+        order: -1;          /* moves the cart above the menu (default order is 0) */
+        position: static;   /* turns off sticky so it doesn't cover the menu while scrolling */
+    }
 }
 
 /* ---------- Extra features (Promo code and search) ---------- */
@@ -697,14 +715,14 @@ nav a {
 
 .search-form input,
 .promo-form input {
-    flex: 1;
-    max-width: 320px;
+    flex: 1;           /* the input stretches to fill the space beside the button */
+    max-width: 320px;  /* stops growing at 320px */
     padding: 10px;
     border: 1px solid #ddd;
     border-radius: 6px;
 }
 
 .promo-row span {
-    color: #2E9C6F;
+    color: #2E9C6F;    /* green text for the discount amount */
     font-weight: bold;
 }
