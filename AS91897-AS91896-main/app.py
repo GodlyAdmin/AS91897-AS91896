@@ -126,7 +126,7 @@ def calculate_total(subtotal, promo_code=''):
     total = round(subtotal * (1), 2)
     discount_applied = False
     code_used = None
-
+    # promo code section that includes a check for valid promo codes and applies the discount if valid
     promo_code = promo_code.strip().upper()
     if promo_code in PROMO_CODES:
         total = total * (1 - PROMO_CODES[promo_code])
@@ -254,7 +254,7 @@ def remove_from_cart():
     return redirect(url_for('menu'))
 # menu data
 
-# Groups the flat pizzas dict into category -> list of pizzas
+# Groups the pizzas by category
 # Also Filters the pizzas based on the search term if provided
 def group_by_category(pizzas, search_term=''):
     search_term = search_term.strip().lower()

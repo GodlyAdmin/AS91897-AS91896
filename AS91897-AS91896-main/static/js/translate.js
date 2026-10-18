@@ -28,3 +28,5 @@
     select.addEventListener('change', function () {
         setLanguage(this.value);
     });
+    // found this on google W3Schools. How TO – Google Translate. https://www.w3schools.com/HOWTO/howto_google_translate.asp
+    //DEV Community (Valor Software). Google Translate customization under NextJS. https://dev.to/valorsoftware/google-translate-customization-under-nextjs-h69
