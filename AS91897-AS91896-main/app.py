@@ -1,9 +1,12 @@
-"""AS91897-AS91896-main/app.py, This is the main application file
-for the pizza shop web application."""
+"""AS91897-AS91896-main/app.py. This is the main application file.
+
+For my pizza shop web application.
+"""
 import json
 import sqlite3
 from datetime import datetime
-from flask import Flask, render_template, request, redirect, session, url_for, flash
+from flask import (Flask, render_template, request, redirect,
+                   session, url_for, flash)
 
 app = Flask(__name__)
 app.secret_key = 'HunterZolomon'
@@ -13,21 +16,21 @@ app.secret_key = 'HunterZolomon'
 
 @app.route("/")
 def home():
-    """Displays the home page of the pizza shop."""
+    """Display the home page of the pizza shop."""
     return render_template("Index.html")
 
 
 @app.route('/menu')
 def menu():
-    """Displays the menu page with pizzas grouped by category."""
+    """Display the menu page with pizzas grouped by category."""
     search_term = request.args.get('q', '')
     pizzas = load_pizzas()
     categories = group_by_category(pizzas, search_term)
     cart = session.get('cart', {})
     subtotal = sum(item['price'] * item['quantity'] for item in cart.values())
-    
+
     return render_template('menu.html', categories=categories, cart=cart,
-    subtotal=subtotal, search_term=search_term)
+                           subtotal=subtotal, search_term=search_term)
 
 
 ADMIN_USERNAME = 'Admin'
@@ -36,7 +39,7 @@ ADMIN_PASSWORD = 'GloryGodspeed'
 
 @app.route("/login", methods=['GET', 'POST'])
 def login():
-    """Handles the admin login functionality."""
+    """Handle the admin login functionality."""
     if request.method == 'POST':
         username = request.form.get('username')
         password = request.form.get('password')
@@ -54,7 +57,7 @@ def login():
 
 @app.route('/logout')
 def logout():
-    """Logs out the admin user by clearing the session."""
+    """Log out the admin user by clearing the session."""
     session.pop('is_admin', None)
     flash('Logged out.')
     return redirect(url_for('home'))
@@ -62,7 +65,7 @@ def logout():
 
 @app.route('/admin')
 def admin_dashboard():
-    """Displays the admin dashboard with a list of all orders and total revenue."""
+    """Display the admin dashboard and list of all orders and total revenue."""
     if not session.get('is_admin'):
         flash('Please log in to view the admin dashboard.')
         return redirect(url_for('login'))
@@ -85,13 +88,13 @@ def admin_dashboard():
         })
         revenue += row[4]
 
-    return render_template('admin.html', orders=orders, 
+    return render_template('admin.html', orders=orders,
                            order_count=len(orders), revenue=revenue)
 
 
 @app.route('/admin/delete/<int:order_id>', methods=['POST'])
 def admin_delete_order(order_id):
-    """Allows the admin to delete an order from the database."""
+    """Allow the admin to delete an order from the database."""
     if not session.get('is_admin'):
         flash('Please log in to do that.')
         return redirect(url_for('login'))
@@ -107,7 +110,7 @@ def admin_delete_order(order_id):
 
 @app.route("/orders")
 def order_history():
-    """Displays the order history for the user."""
+    """Display the order history for the user."""
     with sqlite3.connect('pizza_shop.db') as conn:
         cursor = conn.cursor()
         cursor.execute('SELECT * FROM orders ORDER BY order_id DESC')
@@ -129,8 +132,7 @@ def order_history():
 
 @app.route('/checkout')
 def checkout():
-    """Displays the checkout page with the current cart, subtotal, total, and GST details."""
-    GST_RATE = 15  # percent, prices already include GST
+    """Display the checkout page with the cart, total, and GST details."""
     cart = session.get('cart', {})
     subtotal = sum(item['price'] * item['quantity'] for item in cart.values())
     total, discount_applied, code_used = calculate_total(
@@ -144,11 +146,11 @@ def checkout():
 
 
 def calculate_total(subtotal, promo_code=''):
-    """Return the total amount after applying any valid promo code discounts."""
+    """Return the total after applying any valid promo code discount."""
     total = round(subtotal * (1), 2)
     discount_applied = False
     code_used = None
-    # promo code section that includes a check for valid promo codes and applies the discount if valid
+    # Check the promo code and apply the discount if valid
     promo_code = promo_code.strip().upper()
     if promo_code in PROMO_CODES:
         total = total * (1 - PROMO_CODES[promo_code])
@@ -162,7 +164,11 @@ def calculate_total(subtotal, promo_code=''):
 
 @app.route('/checkout/confirm', methods=['POST'])
 def confirm_order():
-    """Handles the order confirmation process, including validating input, calculating totals, and saving the order to the database."""
+    """Validate the order form, save the order and show the confirmation.
+
+    Checks the customers name and cart, applies any promo code
+    and saves the order to the database.
+    """
     customer_name = request.form.get('customer_name')
     cart = session.get('cart')
     customer_email = request.form.get('customer_email')
@@ -173,14 +179,16 @@ def confirm_order():
         return redirect(url_for('checkout'))
 
     if not cart:
-        flash('Your cart is empty. Please add items before confirming the order.')
+        flash('Your cart is empty. '
+              'Please add items before confirming the order.')
         return redirect(url_for('menu'))
 
     subtotal = sum(item['price'] * item['quantity'] for item in cart.values())
     total, discount_applied, code_used = calculate_total(
         subtotal, request.form.get('promo', ''))
 
-    flash(f"Thank you {customer_name}! Your order has been confirmed. Total: ${total}")
+    flash(f"Thank you {customer_name}! Your order has been confirmed. "
+          f"Total: ${total}")
 
     session.pop('cart', None)
     session.modified = True
@@ -190,18 +198,24 @@ def confirm_order():
     with sqlite3.connect('pizza_shop.db') as conn:
         cursor = conn.cursor()
         cursor.execute('''
-            INSERT INTO orders (invoice_number, customer_name, cart_items, total)
+            INSERT INTO orders
+                (invoice_number, customer_name, cart_items, total)
             VALUES (?, ?, ?, ?)
         ''', (invoice_number, customer_name, json.dumps(cart), total))
         conn.commit()
 
-    return render_template('order_confirmed.html' , invoice_number=invoice_number, customer_name=customer_name,
-                           cart=cart, total=total, delivery_address=delivery_address,
-                           customer_email=customer_email, discount_applied=discount_applied, code_used=code_used)
+    return render_template('order_confirmed.html',
+                           invoice_number=invoice_number,
+                           customer_name=customer_name,
+                           cart=cart, total=total,
+                           delivery_address=delivery_address,
+                           customer_email=customer_email,
+                           discount_applied=discount_applied,
+                           code_used=code_used)
 
 
 def initialise_database():
-    """Initializes the SQLite database and creates the orders table if it doesn't exist."""
+    """Create the SQLite orders table if it doesn't already exist."""
     with sqlite3.connect('pizza_shop.db') as conn:
         cursor = conn.cursor()
         cursor.execute('''
@@ -218,14 +232,15 @@ def initialise_database():
 
 @app.route('/cart/add', methods=['POST'])
 def add_to_cart():
-    """Handles adding a pizza to the shopping cart, including validation of input and updating the session."""
+    """Add a pizza to the shopping cart after validating the form input."""
     pizza_id = request.form.get('pizza_id')
     size = request.form.get('size')
     quantity_raw = request.form.get('quantity')
 
     pizzas = load_pizzas()
 
-    if pizza_id not in pizzas or size not in SIZE_MULTIPLIER or not quantity_raw:
+    if (pizza_id not in pizzas or size not in SIZE_MULTIPLIER
+            or not quantity_raw):
         flash('Invalid item selected.')
         return redirect(url_for('menu'))
 
@@ -267,7 +282,7 @@ def add_to_cart():
 
 @app.route('/cart/remove')
 def remove_from_cart():
-    """Handles removing a pizza from the shopping cart, including updating the session and providing feedback to the user."""
+    """Remove one of the pizza from cart and show a flash message."""
     item_key = request.args.get('item')
     cart = session.get('cart', {})
 
@@ -288,13 +303,14 @@ def remove_from_cart():
 # Groups the pizzas by category
 # Also Filters the pizzas based on the search term if provided
 def group_by_category(pizzas, search_term=''):
-    """Groups pizzas by their category and filters them based on a search term."""
+    """Group pizzas by their category, filtered by a optional search term."""
     search_term = search_term.strip().lower()
     grouped = {}
 
     for pizza_id, pizza in pizzas.items():
         if search_term:
-            haystack = f"{pizza['name']} {pizza['description']} {' '.join(pizza['tags'])}".lower()
+            haystack = (f"{pizza['name']} {pizza['description']} "
+                        f"{' '.join(pizza['tags'])}").lower()
             if search_term not in haystack:
                 continue
 
@@ -307,7 +323,7 @@ def group_by_category(pizzas, search_term=''):
 
 
 def load_pizzas():
-    """Loads the pizza data from a JSON file."""
+    """Load the pizza data from a JSON file."""
     with open('AS91897-AS91896-main/data/pizzas.json') as file:
         return json.load(file)
 
@@ -316,9 +332,12 @@ def load_pizzas():
 SIZE_MULTIPLIER = {'S': 0.8, 'M': 1.0, 'L': 1.2, 'XL': 1.4}
 
 
-
 # code -> discount as a decimal fraction
 PROMO_CODES = {'WELCOME10': 0.10, 'GLORY20': 0.20}
+
+# The GST rate is set to 15% and prices already include GST.
+GST_RATE = 15
+
 
 if __name__ == "__main__":
     initialise_database()
