@@ -24,6 +24,18 @@
         <a href="{{ url_for('order_history') }}">Order History</a>       
     </nav>
     <div class="header-actions">
+        <div class="translate-switcher notranslate">   <!-- "notranslate" stops Google translating the language names -->
+            <select id="language-select" aria-label="Select language">
+                <option value="en">English</option>
+                <option value="mi">Māori</option>
+                <option value="sm">Gagana Samoa</option>
+                <option value="zh-CN">中文</option>
+                <option value="hi">हिन्दी</option>
+                <option value="es">Español</option>
+                <option value="fr">Français</option>
+            </select>
+        </div>
+        <div id="google_translate_element" style="display: none;"></div>
         <div class="cart">
             <a href="{{ url_for('checkout') }}">Cart</a>
         </div>
@@ -49,6 +61,38 @@
 <footer>
     <p>&copy; 2026 Glorified Pizzas</p>
 </footer>
-
+<script>
+    // Google calls this function automatically once its script has loaded
+    function googleTranslateElementInit() {
+        new google.translate.TranslateElement({
+            pageLanguage: 'en',   // the language your site is written in
+            autoDisplay: false    // stops Google showing its own banner/popup
+        }, 'google_translate_element');
+    }
+ 
+    // Google remembers the chosen language in a cookie called "googtrans" (format: /en/mi)
+    function getSavedLanguage() {
+        const match = document.cookie.match(/googtrans=\/en\/([^;]+)/);
+        return match ? match[1] : 'en';
+    }
+ 
+    function setLanguage(lang) {
+        if (lang === 'en') {
+            // Deleting the cookie (by giving it an expiry date in the past) switches back to English
+            document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+            document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=' + location.hostname + ';';
+        } else {
+            document.cookie = 'googtrans=/en/' + lang + '; path=/;';
+        }
+        location.reload();   // reload so Google applies the new language to the whole page
+    }
+ 
+    const select = document.getElementById('language-select');
+    select.value = getSavedLanguage();   // show the current language in the dropdown after a reload
+    select.addEventListener('change', function () {
+        setLanguage(this.value);
+    });
+</script>
+<script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 </body>
 </html>

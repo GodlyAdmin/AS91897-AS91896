@@ -726,3 +726,31 @@ nav a {
     color: #2E9C6F;    /* green text for the discount amount */
     font-weight: bold;
 }
+
+/* ---------- Translate feature ---------- */
+.translate-switcher select {
+    border: 1px solid #C1440E;
+    color: #C1440E;
+    background: transparent;
+    padding: 8px 14px;
+    border-radius: 999px;   /* pill shape to match the other header buttons */
+    font-weight: bold;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+/* Hide the banner and tooltips Google adds, and stop it shifting the page down */
+iframe.skiptranslate,
+#goog-gt-tt,
+.goog-te-balloon-frame {
+    display: none !important;
+}
+
+body {
+    top: 0 !important;   /* Google adds a top offset to body when its banner shows */
+}
+
+.goog-text-highlight {
+    background: none !important;   /* removes the yellow hover highlight on translated text */
+    box-shadow: none !important;
+}
